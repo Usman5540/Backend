@@ -4,18 +4,31 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
-    <title>Document</title>
+    <script src="/path/to/main.js" type="module"></script>
+
+    <title>User Data</title>
   </head>
   <body>
-    <div>
-      <h1>Contact Now</h1>
-      <form method="post" action="/contact">
-        <input type="text" name="name" />
-        <input type="email" name="email" />
-        <button type="submit">Submit</button>
-      </form>
-    </div>
+    <h1>User Data</h1>
+    <ul class="data">
+      <% for(let i = 0; i < information.length; i++) { %>
+      <li>
+        <span><%= information[i].name %></span>
+        <span><%= information[i].email %></span>
+        <button
+          onclick="userDelete('<%= information[i].name %>', '<%= information[i].email %>')"
+        >
+          Delete
+        </button>
+      </li>
+      <% } %>
+    </ul>
 
-    <script src="script.js"></script>
+    <h1>Contact Now</h1>
+    <form method="post" action="/data">
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <button type="submit">Submit</button>
+    </form>
   </body>
 </html>

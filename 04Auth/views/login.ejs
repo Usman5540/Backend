@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <form action="/login" class="form" method="post">
+      <h1>Log in now</h1>
+      <input
+        type="text"
+        placeholder="username"
+        name="username"
+        value="<%= locals.username %>"
+      />
+      <div class="password-input">
+        <input
+          type="password"
+          placeholder="password"
+          name="password"
+          autocomplete="off"
+          id="password-input"
+        />
+        <button type="button" id="toggle-password">Show</button>
+      </div>
+      <p class="error"><%= locals.error %></p>
+      <button type="submit">Login</button>
+    </form>
+    <script src="password.js"></script>
+    <!-- Make sure the path to the JavaScript file is correct -->
+  </body>
+</html>
