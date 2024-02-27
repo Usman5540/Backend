@@ -2,7 +2,7 @@
 
 import  connectDb from './DataBases/DB.js';
 import app from './app.js'
-const PORT=8000
+const PORT=500
 connectDb() 
 app.listen(PORT,()=>{
     // console.log(process.env.PORT)
