@@ -1,6 +1,5 @@
 import User from "../modles/user.js";
 // schema user 
-import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt';
 import { tokenfunction } from "../utils/utils.js";
 // before it giving error but its working fine 
@@ -33,7 +32,7 @@ const users= await User.find({})
 export const getUserDetails=  (req,res)=>{
       res.json({
         success:true,
-        user:req.user,//---->??
+        user:req.user,//---->?? i guess simply showing data in json format which get from decoded variable in auth.js 
       })
 }
 // not working
@@ -55,7 +54,13 @@ const {email,password}= req.body
       message:"invalid password or email",
     })}
     // order matter
-    tokenfunction(res,user,`welcome back ${user.name}`,"200")
+    tokenfunction(res,user,`welcome back ${user.name}`,200)
     
 }
-
+export const logout=(req,res)=>{
+       res.status(200).cookie("token"," ",{
+        expires:new Date(Date.now())// whenever you hit the api this token will end and empty 
+       }).json({
+        success:true,
+       })
+}

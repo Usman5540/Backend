@@ -1,4 +1,5 @@
-import  route  from './routes/route.js';
+import  userRouter  from './routes/route.js';
+import   taskRouter from './routes/taskRoute.js'
 import express from 'express'
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
@@ -7,5 +8,7 @@ dotenv.config({ path: './config.env' });
 const app = express()
 app.use(express.json())
 app.use(cookieParser())// this will allow for req.cookies in getuserDetails
-app.use("/users",route) 
+app.use("/users",userRouter) 
+app.use("/api/v1/tasks",taskRouter)
+
 export default app
