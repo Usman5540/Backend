@@ -5,5 +5,12 @@ const router = express.Router()
 
 router.post("/new",isAuthenticated,newTask)
 router.get("/mytasks",isAuthenticated,myTasks)
-router.route("/:id").put(updateTask).delete(deleteTask)
-export default router
+router.route("/:id").put(isAuthenticated).delete(deleteTask)
+/* 
+
+,updateTask,()=>{
+    next()// will through error because there is no next function 
+    to solve this problem we will create a middlewere
+}
+*/
+export default router 

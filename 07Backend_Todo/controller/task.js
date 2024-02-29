@@ -21,25 +21,31 @@ export const myTasks= async(req,res,next)=>{
     })
 
 }
-export const updateTask= async(req,res,next)=>{
-   const {id}=req.params;
-   const task = await Task.findById(id)
-   task.isCompleted= !task.isCompleted // this is same as in react streak removed
-   await task.save()
+export const updateTask = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const task = await Task.findById(id); // we will provide id of the specific task
+        if (!task) return next(new Error("Task not found"));//--->??
+        task.isCompleted = !task.isCompleted; // this is same as in react streak removed
+        await task.save();
 
-    res.json.status(200)({
-        success:true,
-          message:"task is updated successfuly"
-    })
+        res.status(200).json({
+            success: true,
+            message: "Task is updated successfully."
+        });
+    } catch (error) {
+        next(error);
+    }
+};
 
-}
 export const deleteTask = async(req,res,next)=>{
-        const {id} = req.params;
-   const task = await Task.findById(id)
-   await task.remove() 
-    res.status(200).json({
-        success:true,
-      message:"task is deleted successfuly "
-    })
+     const { id } = req.params;
+        const task = await Task.findById(id);
+        if(!task) return next(new Error("error found "))
+        await task.deleteOne()
+        res.status(200).json({
+            success: true,
+            message: "Task is deleted successfully."
+        });
 
 }
