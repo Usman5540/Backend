@@ -5,7 +5,7 @@ const router = express.Router()
 
 router.post("/new",isAuthenticated,newTask)
 router.get("/mytasks",isAuthenticated,myTasks)
-router.route("/:id").put(isAuthenticated).delete(deleteTask)
+router.route("/:id").put(isAuthenticated,updateTask).delete(deleteTask)
 /* 
 
 ,updateTask,()=>{

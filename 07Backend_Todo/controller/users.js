@@ -2,8 +2,11 @@ import User from "../modles/user.js";
 // schema user 
 import bcrypt from 'bcrypt';
 import { tokenfunction } from "../utils/utils.js";
+import { errorHandler } from "../middlewere/error.js";
 // before it giving error but its working fine 
 export const newUser=async (req,res)=>{
+  try {
+    
     const {email,password,name} = req.body;
    let user = await User.findOne({email})
    if (user) {
@@ -20,6 +23,9 @@ export const newUser=async (req,res)=>{
     })
 // simply called the function for readablity 
 tokenfunction(res,user,"user register successfully",200)
+  } catch (error) {
+    next(error)
+  }
    
 }
 export const getAlluers=async (req,res)=>{
@@ -30,32 +36,33 @@ const users= await User.find({})
     })
 }
 export const getUserDetails=  (req,res)=>{
+  try {
+    
       res.json({
         success:true,
         user:req.user,//---->?? i guess simply showing data in json format which get from decoded variable in auth.js 
       })
+  } catch (error) {
+    next(error)
+  }
 }
 // not working
 export const login= async (req,res)=>{
-const {email,password}= req.body
+try {
+  const {email,password}= req.body
 // we set password property select:false that is why we can not get password with user  data so that is why  we used select function and + as well
    let user = await User.findOne({email}).select("+password") 
-  if (!user) {
-    res.status(404).json({
-      success:false,
-      message:"invalid password or email",
-    })}
+       if(!user) return next(new errorHandler("invalid password or email ",404))
     
     const isMatch = bcrypt.compare(password,user.password)
-    if (!isMatch) 
-      {
-    res.status(404).json({
-      success:false,
-      message:"invalid password or email",
-    })}
+     if(!isMatch) return next(new errorHandler("invalid password or email ",404))
+  
     // order matter
     tokenfunction(res,user,`welcome back ${user.name}`,200)
     
+} catch (error) {
+  next(error)// sending error to middlewere custom
+}
 }
 export const logout=(req,res)=>{
        res.status(200).cookie("token"," ",{
